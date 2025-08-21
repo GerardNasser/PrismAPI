@@ -1,0 +1,447 @@
+---
+title: "Prisma Template Guide"
+author: "Gerard N."
+date: "2025-08-20"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: no
+    number_sections: true
+mainfont: Times New Roman
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/Users/gerar/Desktop/All/Github/Prisma_Compliance_Resource/")
+```
+\begin{center}
+Abstract:
+
+When done add a summary abstract here
+\end{center}
+
+\newpage 
+
+```{=latex}
+    \setcounter{tocdepth}{4} 
+    \tableofcontents
+```
+
+\newpage
+
+# Section 1: Introduction
+
+## What is PRISMA?
+
+PRISMA stands for Preferred Reporting Items for Systematic Reviews and Meta-Analyses. It is meant to help maintain transparency and trust for the methodology systematic searches, review, and meta-analyses.
+
+## What is the scope of this resource?
+
+This document is made to help you through the steps of a PRISMA-complaint search. It will guide you through each necessary step based on best practice documents (listed below) and the authors' learned experiences. This documents will use R code and packages to help streamline some steps, but manual input will be required. Additionally, other scripts (such as Python scripts) will be provided for certain tasks.
+
+### Reference Docs
+https://www.prisma-statement.org/s/PRISMA_2020_checklist-ab3g.pdf \newline
+https://www.prisma-statement.org/s/PRISMA_2020_expanded_checklist-w7ra.pdf \newline
+https://www.bmj.com/content/372/bmj.n160 \newline
+https://libguides.mssm.edu/ebm/ebp_pico
+
+### Example paper used:
+[Asik et. al., 2015](https://onlinelibrary.wiley.com/doi/full/10.1002/lary.25368?casa_token=ITChE_pTxP4AAAAA%3Az5U2lvgfD4W6SvA4bqTj3ygG-Wr9QYD172m7vOpr27bgOrJcWPTXHSZg-iyFaM9nopQRtEf8xokI6OcsEQ)
+
+## How to use this guide.
+
+The best way to use this guide is to make a duplicate. In this duplicate, you should change the title, date, and author. Then, when the document is fully completed and knit, it will produce a PDF guide of your methodology. It will record all the steps you took, which can be used to create you guide/code book and methods section of the paper. Please give credit to this original document if you directly use any portion of it or its outputs for presentations or publications.
+
+## Notes:
+There are ample resources on this topic. This is meant to be interactive and engaging for your learning. There is an already-existing simplified checklist that can be filled out and used to generate reports. It is a [Shiny app](https://prisma.shinyapps.io/checklist/) created by PRISMA. This resource goes beyond a checklist, helping you go through each PRISMA step and check over your work.
+
+# Section 2: Planning
+
+## What is the PICO Framework?
+The PICO framework is a way to focus your topic and build a well-structured question.
+
+>P - This is the population that you are interested in. For example, you are interested in patients with disease X. P can also stand for problem. An example of this could be disease X itself or the loss of soil nutrients.
+
+>I - This is the intervention you are assessing. This could be therapy Y for disease X, or seeding microbes for loss of soil nutrients.
+
+>C - This is the comparison. This would be no therapy compared to therapy Y, or no seeding compared to seeding microbes.
+>O - This is your outcome. This would be a reduction in symptom Z or increase in available nitrogen.
+
+Together, these pieces of information focus your scope into a manageable question that the search can address, such as:
+
+>"In adults age 20-30 with disease X, does treatment Y compared to no treatment reduce symptom Z?" 
+
+>"In plants with reduced soil nutrients, does seeding microbes compared to not seeding increase nitrogen or other nutrient availability?" 
+
+## Define your search
+Now that we understand the PICO framework, the next step is to define the search.
+
+What is your population or problem (P)?
+
+---
+
+---
+
+What is your intervention (I)?
+
+---
+
+---
+
+What is your comparison (C)?
+
+---
+
+---
+
+What is your outcome (O)?
+
+---
+
+---
+
+With the above information, what is your questions?
+
+---
+
+---
+
+## Resource Selection
+The next step is to determine which resources you are going to use to answer those questions.
+
+### Resource Type
+For your question, what type of resources are you using? Is it a database or repository? Are you looking for case law or peer-reviewed research? Is it on a specific field of research?
+
+Begin answering those questions below. This will help you in the next step.
+
+---
+
+---
+
+### Resource Selection
+Now that you have thought about the type of resources you want to use for your search, what are available databases or repositories that will house what you need?
+
+---
+
+---
+
+## Keyword selection
+The next step is to determine your _keywords_ and their _booleans_. Keywords are the words that will be searched to find all the resources relevant to your topic. Booleans are the words that create relations between keywords or sets of keywords. Booleans include:
+
+>AND \newline
+>OR \newline
+>NOT \newline
+
+These booleans are accompanied by operators such as:
+
+>() \newline
+>"" \newline
+>* \newline
+>? \newline
+
+Let's start off with keywords, and let's use R to help us think of more.
+
+### Prelim List
+First thing, lets create a list of keywords for R to use.
+```{r}
+# In the c() list in quotes every keyword you can think of related to your topic 
+#Note: not working for multi-word phrases - separated each word.
+prelim_keywords <- c("disability", "health")
+```
+
+### Expand the Keywords.
+Using that list, this next section will produce variants of the words, synonyms, and associated words. These are just to give you ideas or help you make sure you are using all the words or phrases you want to.
+
+Note: This should work so long as Python is installed. If there are any modules that need installing, you will be notified.
+
+This Python script is "casting a wide net" and may, on accident, produce nonsensical or unrelated words. Please ignore them.
+
+```{r}
+if (!requireNamespace("reticulate", quietly=TRUE))
+  BiocManager::install("reticulate")
+library(reticulate)
+
+command <- "python3" 
+
+# The arguments are the script name followed by the words
+args <- c("similar_words.py", prelim_keywords)
+
+# Run the script using system2()
+# stdout = TRUE tells R to capture the text output from the script
+output <- system2(command, args, stdout = TRUE)
+
+# Print the captured output neatly
+cat(output, sep = "\n")
+```
+
+### Update Prelim list to Intermediate list
+Now that you saw those suggestions, let's make an intermediate list of keywords that includes any additional keywords you've added. Additionally, it is helpful to ask a colleague in your field to take a look at your search terms and make suggestions. You have likely been staring at your search terms for quite some time, and someone who is new to your search terms might have suggestions that you have overlooked.
+
+```{r}
+intermediatd_keywords <- c("disability", "health", "well-being")
+```
+
+### Begin Pairwise Comparison - Grouping Keywords
+Check if you are getting an unmanageable number of results from any specific keyword. We will check this with a pairwise search of keywords or phrases.
+
+To start, you should group your keywords to follow PICO (somewhat). For brevity, group the keywords you will be using into categories, such as PICO categories, phrases that can be used interchangeably, or synonyms. This can help you determine if words can be brought together in () to be treated as "one". An example of this is 16S gene, 16S rRNA, and 16s RNA. Similar words or phrases like this can be treated as "one" in the pair wise assessment. Instead of checking 16S gene AND soil, 16S rRNA AND soil, and 16s RNA AND soil, you can do one search like below:\newline
+(16S gene OR 16S rRNA OR 16s RNA) AND soil.\newline
+
+### Begining Pairwise Comparison - Adding OR and AND
+For this next step, include the OR boolean for any grouped words.
+```{r}
+# Grouped words should be in the same "" and separated by OR
+grouped_intermediate_keywords <- c("PLACE", "HOLDER")
+```
+
+### Begining Pairwise Comparison - Getting Pairs
+Now R will set up the pairs for you.
+```{r}
+unique_pairs <- combn(grouped_intermediate_keywords, 2)
+
+result <- apply(t(unique_pairs), 1, paste, collapse = " AND ")
+
+cat(result, sep = "\n")
+```
+
+### Performing Pairwise Comparison
+This next step is manual and will be done separate of this list. However, record keeping and transparency is key in a systematic review. First, we'll record our initial cutoff for the pairwise assessment. This is a cutoff that will be dependent on your search topic, but is your judgment of an unmanageable number of results for one keyword. These searches may also be "low quality" in the sense that most results will not be used in your final systematic search. This can be because other research areas use similar language. Record that below:
+
+---
+
+---
+
+As you go through the pairwise comparisons, your cutoff number may change with the new information you have. You can go back and note your adjusted value. 
+
+Now, the easiest way to visualize this process is to go into a matrix (which can be done in Excel) and make every coordinate a pair. To get you started, this next chunk will produce a csv that can be imported into Excel.
+
+```{r}
+# Column A of Matrix
+cola <- c()
+colb <- c()
+
+for (i in result) {
+  split <- unlist(strsplit(i, " AND "))
+  cola <- append(cola, split[1])
+  colb <- append(colb, split[2])
+}
+
+row_headers <- cola
+col_headers <- colb
+
+# Create an empty matrix with row and column names
+mat <- matrix("", nrow = length(row_headers), ncol = length(col_headers),
+              dimnames = list(row_headers, col_headers))
+
+# Write to CSV
+write.csv(mat, file = "matrix.csv", quote = TRUE)
+```
+
+With this CSV, you will search each pair in at least half of your databases and record the number of results. Note the date of the search somewhere on the CSV that was saved by the previous step.
+
+### Removing Keywords - First Example of Exclusion
+Now that you have filled out the CSV, look at all the results. Is there a word or group of words that consistently return a number of results above your threshold, or consistently return a much larger number of results than the rest? These are words you would consider removing from your final search keywords. This step shows your first instance of "exclusion". This is an important concept.
+
+Exclusion is the removal of something from use in our systematic review for a given reason. This is okay, but you **must** remember the following:
+
+>- All exclusions must be recorded.
+>- All exclusions must justified.
+>- All exclusions must excluded based on a systematic criteria.
+>- That exclusion criteria must be generalized and predefined, and applies to **all** keywords. If you exclude Keyword A for Reason 1, and Keyword B also would fit under exclusion for Reason 1, you should consider additionally removing Keyword B. Any exception to this must be justified and noted. For instance, Keyword A may not have a high-quality list of results (for instance, you notice that none of the titles in the first page of results are relevant to your search), but Keyword B does have a high-quality list of results. You would note that you excluded Keyword A for Reason 1, but kept Keyword B because of the initial high-quality results you noticed.
+
+In this case, an example exclusion criteria that is predefined and based on this assessment can be:
+
+>_Term includes too many results, scope is too broad._
+
+This is also a good time to investigate your keywords. One thing you can investigate is whether there is a value in an individual term. Using our previous example, perhaps 16s rRNA does not add any additional studies that are not already captured by 16s RNA. Therefore, there may not be a need for that search term, and it can be excluded with the justification:
+
+>_Term does not add additional studies_
+
+### Removing Keywords - Excluded Keywords
+Now, let's record your exclusion criteria for keywords. Alternatively, record the reasons and the justifications you have encountered that led you to remove a specific keyword.
+
+---
+
+---
+
+Now, record all the excluded keywords and their corresponding reasons.
+
+---
+
+---
+
+Remember, you can make a criteria just for one word (this will also apply to studies). Feel free to adjust your list of exclusion criteria for keywords as needed. Just remember the guidance listed above - write it down!
+
+Now, let's record your final list of keywords. These are the words we will use for the rest of this process. If you add or remove any words later on, all steps past this point will need to be repeated (and preferably the pairwise matrix too). Remember, you can make your own decisions based on your own criteria, as long as you can sensibly justify those decisions to another expert in your field.
+
+## Building Your Search Phrase
+Once you are confident in your keywords, it's time to assemble your phrase. To do this, let's bring back our PICO example.
+
+>"In adults age 20-30 with disease X, does treatment Y compared to no treatment reduce symptom Z?"
+
+This phrase can be split up by population, intervention, comparison, and outcome, and so it can our search phrase!
+
+Taking our final keyword list, we can group them into keywords that are related to each category. We can then build the phrase by putting an AND boolean in between each PICO category.
+
+This is the basis of your search phrase.
+
+### Evaluating your search phrase
+
+Once you have that initial phrase, search it! You should make sure that the phrase is giving enough results that you feel confident you are capturing the literature you need, but not so many results it is unmanageable. Additionally, try using additional operators to tailor this phrase like * and ? to reduce the number of keywords while still capturing variations. You can also use () to adjust how the search is executed.
+
+Remember, how you apply booleans and operators may vary depending on the requirements of the database. Recording each change you make and why you have made it. Again, this rule goes for anything you do - always record, always justify. Peer reviewers will attempt your search terms, and you want to be able to explain why you made certain decisions over other decisions, such as your rationale for excluding a certain keyword. Don't rely on your memory - a systematic search takes time, and peer review can also have delays. You may have an excellent memory, but find yourself struggling to remember why you excluded a certain keyword over a year ago.
+
+Once you have tried different forms of your search phrase and checked it once against all the databases you are using, you are now ready to go! Next, we will be performing the actual search.
+
+# Section 3: Performing the Search
+
+# Section 4: Outlining the Paper
+
+## Section 1: Title
+The title of the project should identify it as a systematic review. It should contain the following elements:
+
+>- Identification: "Systematic Review" should be in the title.
+>- Informative: The title provides key information - the objective and the interventions the review addresses.
+>- Additional Information: The title could include other information, like the method of analysis.
+
+Example Title:
+
+>_A meta-analysis of surgical success rates in Congenital stapes fixation and juvenile otosclerosis_ (Asik et. al.)
+
+## So, what is your title?
+Please write your title below:
+
+---
+
+---
+
+## Section 2: Abstract
+The abstract is important has its own checklist, which we will go through now.
+
+### Title
+This will be the same title as before, as a title is required when submitting abstracts for presentations.
+Please write the title below (again, if you need too).
+
+---
+
+---
+
+### Background
+The background should be an explicit statement on the objectives/questions that is addressed by the review/search.
+Please write the statement below.
+
+---
+
+---
+
+### Methods
+The methods sections of the abstract should include the following:
+
+#### Eligibility Criteria
+The eligibility criteria should be briefly described or mentioned. Something as simple as this example can suffice.
+
+>_A literature search was performed and evaluated based on established criteria._ (Asik et. al.)
+
+Please write your criteria statement below.
+
+---
+
+---
+
+#### Information Sources
+The sources used and when they were last searched (i.e. databases, 2025)
+Please list the sources and search dates below. 
+
+---
+
+---
+
+#### Risk of Bias
+Methods used to assess the risk of bias in the included studies.
+Please list your assessment methods below.
+
+---
+
+---
+
+#### Synthesis of results
+Methods used to synthesize and present results.
+Please List your methods below.
+
+---
+
+---
+
+### Results
+This is where you will briefly summarize the results.
+
+#### Included studies
+The total number of included studies and participants. Summarize any relevant characteristics of studies. 
+Please list included study information below.
+
+---
+
+---
+
+#### Synthesis of results
+Present results for the main outcomes of the search:
+
+>Number of included studies and participants.
+>Summary estimate and confidence interval (meta-analysis).
+>Indicated favored group (if comparing groups).
+
+Please overview the results below.
+
+---
+
+---
+
+### Discussion
+Here you will briefly discuss your search.
+
+#### Limitations of evidence
+Summarize and limitations of evidence included in the review such as:
+
+>Risk of Bias
+>Imprecision
+>Inconsistency
+
+Please summarize limitations below.
+
+---
+
+---
+
+#### Interpretation
+Give a General Interpretation of the results below.
+
+---
+
+---
+
+### OTHER
+
+#### Funding
+Specify the primary source of funding for the review below.
+
+---
+
+---
+
+#### Registration
+Provide the register name and registration number below. 
+
+---
+
+---
+
+
+
+
+
+
+
+
+
+
