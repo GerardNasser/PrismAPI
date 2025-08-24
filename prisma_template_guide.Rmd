@@ -147,7 +147,7 @@ First thing, lets create a list of keywords for R to use.
 ```{r}
 # In the c() list in quotes every keyword you can think of related to your topic 
 #Note: not working for multi-word phrases - separated each word.
-prelim_keywords <- c("disability", "health")
+prelim_keywords <- c()
 ```
 
 ### Expand the Keywords.
@@ -179,7 +179,7 @@ cat(output, sep = "\n")
 Now that you saw those suggestions, let's make an intermediate list of keywords that includes any additional keywords you've added. Additionally, it is helpful to ask a colleague in your field to take a look at your search terms and make suggestions. You have likely been staring at your search terms for quite some time, and someone who is new to your search terms might have suggestions that you have overlooked.
 
 ```{r}
-intermediatd_keywords <- c("disability", "health", "well-being")
+intermediatd_keywords <- c()
 ```
 
 ### Begin Pairwise Comparison - Grouping Keywords
