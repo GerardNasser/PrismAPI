@@ -290,11 +290,25 @@ This is the basis of your search phrase.
 
 Once you have that initial phrase, search it! You should make sure that the phrase is giving enough results that you feel confident you are capturing the literature you need, but not so many results it is unmanageable. Additionally, try using additional operators to tailor this phrase like * and ? to reduce the number of keywords while still capturing variations. You can also use () to adjust how the search is executed.
 
-Remember, how you apply booleans and operators may vary depending on the requirements of the database. Recording each change you make and why you have made it. Again, this rule goes for anything you do - always record, always justify. Peer reviewers will attempt your search terms, and you want to be able to explain why you made certain decisions over other decisions, such as your rationale for excluding a certain keyword. Don't rely on your memory - a systematic search takes time, and peer review can also have delays. You may have an excellent memory, but find yourself struggling to remember why you excluded a certain keyword over a year ago.
+Remember, how you apply booleans and operators may vary depending on the requirements of the database. Recording each change you make and why you have made it. Again, this rule goes for anything you do - always record, always justify. Peer reviewers will attempt your search terms, and you want to be able to explain why you made certain decisions over other decisions, such as your rationale for excluding a certain keyword. Don't rely on your memory - a systematic search takes time, and peer review can also have delays. You may have an Excellent memory, but find yourself struggling to remember why you excluded a certain keyword over a year ago.
 
 Once you have tried different forms of your search phrase and checked it once against all the databases you are using, you are now ready to go! Next, we will be performing the actual search.
 
 # Section 3: Performing the Search
+
+## Searching Your Selected Databases
+Using the final search phrase you developed, you will now begin searching the selected databases and retrieving the results. There are two approaches to performing the actual search; (1) search using the UI interface on the database website; (2) use an API to query the database directly and pull down results. I will briefly touch upon both of these things. Tutorials for searching some databases using their APIs are provided [here](https://github.com/GerardNasser/Prisma_Compliance_Resource/tree/main/APIs).
+
+For each database, pull down the results of your search. When you do, take note of the date and time that you pulled down the results. Depending on how long it takes to finish your systematic review, you will need to redo the searches once right before submission. This will help you confirm that you are not missing anything new that is relevant to your review. Performing an updated search also helps you anticipate the reviewer's, as they will likely perform the same searches as you. They will question if there is a discrepancy between your results and theirs.
+
+Once you have all your results, how you store them is up to you. An Excel spreadsheet is more than sufficient. However, depending on your needs, endnote files or RIS files are sufficient as well.
+
+# Parsing Through the Results
+There are many ways to do this, and different tools as well. To help learn and understand the process, this explanation will be manual, assuming you are using a software like Excel or something similar. The steps are very clear and mainly text manipulation and human judgement, if you are comfortable with Python, it can be done through code too.
+
+One resource that is helpful if you do not want to do it in Excel is [Covidance](https://www.covidence.org/) and [WEBSITE NIKITA SHOWED ME]().
+
+
 
 # Section 4: Outlining the Paper
 
