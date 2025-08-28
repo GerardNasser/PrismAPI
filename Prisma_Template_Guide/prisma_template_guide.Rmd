@@ -143,10 +143,11 @@ Let's start off with keywords, and let's use R to help us think of more.
 
 ### Prelim List
 First thing, lets create a list of keywords for R to use.
-```{r}
-# In the c() list in quotes every keyword you can think of related to your topic 
-#Note: not working for multi-word phrases - separated each word.
-prelim_keywords <- c("test")
+```{r echo=FALSE, message=FALSE, warning=FALSE} 
+# In the c() list in quotes every keyword you can think of related to your topic like so: "science, rocks"
+# Note: You can try to use multi-word phrases, but it probably won't work. If you did want to try put "_" between
+# the words.
+prelim_keywords <- c("science, rocks")
 ```
 
 ### Expand the Keywords.
@@ -155,72 +156,90 @@ Using that list, this next section will produce variants of the words, synonyms,
 Note: This should work so long as Python is installed. If there are any modules that need installing, you will be notified.
 
 This Python script is "casting a wide net" and may, on accident, produce nonsensical or unrelated words. Please ignore them.
+\newpage
+If the below section gives an error that looks like:
 
-```{r message=FALSE, warning=FALSE}
-# 1. ENSURE RETICULATE IS INSTALLED AND LOADED
+```{}
+Error in if (idx != -1) version <- substring(version, 1, idx - 1) : 
+  the condition has length > 1
+```
+
+In the R console run:
+
+```{r eval=FALSE, include=TRUE}
+reticulate::virtualenv_remove("r-reticulate")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 if (!requireNamespace("reticulate", quietly = TRUE)) {
   install.packages("reticulate")
 }
+
 library(reticulate)
 
-# 2. INSTALL REQUIRED PYTHON PACKAGES
+# If the environment was removed above, this will now create a new, clean one.
 required_packages <- c("pandas", "numpy", "nltk", "inflect")
-py_install(packages = required_packages, pip = TRUE)
+py_install(packages = required_packages, pip = TRUE, envname = "r-reticulate")
 
-# 3. ROBUST NLTK DATA DOWNLOAD (using R's downloader)
 cat("Checking for NLTK 'wordnet' data...\n")
 tryCatch({
-  # Find the primary path where NLTK stores data
   nltk <- import("nltk")
   nltk_path <- nltk$data$path[[1]]
-  
-  # Define the target directory and file path
   corpora_dir <- file.path(nltk_path, "corpora")
   wordnet_zip <- file.path(corpora_dir, "wordnet.zip")
   
-  # Check if the file is already there. If not, download it using R.
   if (!file.exists(wordnet_zip)) {
     cat("-> 'wordnet.zip' not found. Downloading via R...\n")
-    
-    # Create the 'corpora' directory if it doesn't exist
     dir.create(corpora_dir, showWarnings = FALSE, recursive = TRUE)
-    
-    # Define the download URL
     url <- "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/wordnet.zip"
-    
-    # Download the file using R's built-in downloader
     download.file(url, destfile = wordnet_zip, mode = "wb")
-    
     cat("-> Download complete.\n")
   } else {
     cat("-> 'wordnet.zip' already exists.\n")
   }
   
-  # Final verification by Python to be safe
   nltk$data$find('corpora/wordnet.zip')
   cat("-> NLTK 'wordnet' data is ready.\n")
   
 }, error = function(e) {
-  stop(paste("A critical error occurred while trying to secure NLTK data. Please check your internet connection and firewall settings. Error:", e$message))
+  stop(paste("A critical error occurred securing NLTK data. Error:", e$message))
 })
 
-
-# 4. SOURCE THE PYTHON SCRIPT AND CALL THE FUNCTION DIRECTLY
 source_python("./auxillary_scripts/similar_words.py")
 
-# NOTE: Make sure the `prelim_keywords` variable is defined before this chunk runs!
 output <- find_similar_words(list(prelim_keywords))
 
-# 5. DISPLAY THE OUTPUT
-cat("\n--- Script Output ---\n")
-cat(output, sep = "\n")
+if (!requireNamespace("gridExtra", quietly = TRUE)) {
+  install.packages("gridExtra")
+}
 
+output_lines <- strsplit(output, "\n")[[1]]
+
+tryCatch({
+  pdf("Additional optional words output.pdf", height = 11, width = 8.5)
+  gridExtra::grid.table(
+    d = as.data.frame(output_lines),
+    rows = NULL, 
+    cols = NULL,
+    theme = gridExtra::ttheme_minimal(
+      core = list(fg_params = list(hjust = 0, x = 0.05)),
+      colhead = list(fg_params = list(hjust = 0, x = 0))
+    )
+  )
+  dev.off() # This command saves and closes the PDF file
+  cat("-> Successfully saved to 'Additional optional words output.pdf'\n")
+}, error = function(e) {
+  cat("-> ERROR: Failed to create PDF. Error:", e$message, "\n")
+  # Fallback to printing in the console if PDF creation fails
+  cat("\n--- Script Output (Fallback) ---\n")
+  cat(output, sep = "\n")
+})
 ```
 
 ### Update Prelim list to Intermediate list
 Now that you saw those suggestions, let's make an intermediate list of keywords that includes any additional keywords you've added. Additionally, it is helpful to ask a colleague in your field to take a look at your search terms and make suggestions. You have likely been staring at your search terms for quite some time, and someone who is new to your search terms might have suggestions that you have overlooked.
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 intermediatd_keywords <- c()
 ```
 
@@ -232,14 +251,14 @@ To start, you should group your keywords to follow PICO (somewhat). For brevity,
 
 ### Begining Pairwise Comparison - Adding OR and AND
 For this next step, include the OR boolean for any grouped words.
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Grouped words should be in the same "" and separated by OR
 grouped_intermediate_keywords <- c("PLACE", "HOLDER")
 ```
 
 ### Begining Pairwise Comparison - Getting Pairs
 Now R will set up the pairs for you.
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 unique_pairs <- combn(grouped_intermediate_keywords, 2)
 
 result <- apply(t(unique_pairs), 1, paste, collapse = " AND ")
@@ -258,7 +277,7 @@ As you go through the pairwise comparisons, your cutoff number may change with t
 
 Now, the easiest way to visualize this process is to go into a matrix (which can be done in Excel) and make every coordinate a pair. To get you started, this next chunk will produce a csv that can be imported into Excel.
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Column A of Matrix
 cola <- c()
 colb <- c()
@@ -346,6 +365,10 @@ For each database, pull down the results of your search. When you do, take note 
 Once you have all your results, how you store them is up to you. An Excel spreadsheet is more than sufficient. However, depending on your needs, endnote files or RIS files are sufficient as well.
 
 ## Parsing Through the Results
+The flow of this section will follow the PRISMA Flowchart.
+
+![PRISMA Flowchart showing what information we need to record.]("./prisma_example_flowchart.jpg")
+
 There are many ways to do this, and different tools as well. To help learn and understand the process, this explanation will be manual, assuming you are using a software like Excel or something similar. The steps are very clear and mainly text manipulation and human judgement, if you are comfortable with Python, it can be done through code too.
 
 One resource that is helpful if you do not want to do it in Excel is [Covidance](https://www.covidence.org/) and [HubMeta](https://hubmeta.com/).
@@ -379,14 +402,50 @@ total_returned_studies <- sum(0,1,2,3)
 cat("The total number of results across databases:", total_returned_studies)
 ```
 
+### De-duplication of Results
+Now that we have all our results in one spot, it is time to de-duplicate them. This is a necessary step since it is likely that a single study can be in multiple databases.
 
-### Deduplication of Results
+If you have all your results in an excel spreadsheet, please [save it as a CSV](https://support.microsoft.com/en-us/office/save-a-workbook-to-text-format-txt-or-csv-3e9a9d6c-70da-4255-aa28-fcacf1f081e6). If it is already a CSV, good job. This next section of script will take in your CSV and de-duplicates based on title and year (it assumes those are two columns you have). It will then return to you a new CSV with "-deduped" at the end of the name.
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Please remember to change the path if needed! (You can also name the file same as this section and put it in the same place on your computer)
+library(dplyr)
+output_of_dedupe <- "combined_database_results-deduped.csv"
+tryCatch({
+  input_of_results <- utils::read.csv("combined_database_results.csv", stringsAsFactors = FALSE)
+
+  # Step 2: Deduplicate based on lowercase 'title' and 'year'.
+  # We use group_by() to consider each combination of lowercase title and year.
+  # Then, slice(1) keeps only the first row for each of those unique groups.
+  # The original capitalization from that first row is preserved.
+  deduplicated_df_dplyr <- input_of_results %>%
+    group_by(title_lower = tolower(title), year) %>%
+    slice(1) %>%
+    ungroup() %>% # It's good practice to ungroup after the operation.
+    select(-title_lower) # Remove the temporary lowercase column.
+
+  # Step 3: Save the deduplicated data to a new CSV file.
+  # Replace 'your_output_file.csv' with your desired output file name.
+  write.csv(deduplicated_df_dplyr, output_of_dedupe, row.names = FALSE)
+
+  deduplicated_total <- nrow(deduplicated_df_dplyr)
+  
+  # Print a success message to the console
+  print("Deduplication using dplyr is complete. Check 'your_output_file_dplyr.csv'.")
+  print("Original rows:")
+  print(nrow(input_of_results))
+  print("Rows after deduplication:")
+  print(nrow(deduplicated_df_dplyr))
+
+}, error = function(e) {
+  print("An error occurred. Please make sure 'input_of_results' exists and the column names 'title' and 'year' are correct.")
+  print(e)
+})
+```
+Now that de-duplication is complete, we can begin to screen the title and abstracts of the results, applying our inclusion/exclusion criteria as we go.
 ### Title and Abstract Screening
 
 ### Full Text Screening
-
-### PRISMA Flowchart
 
 # Section 4: Outlining the Paper
 
