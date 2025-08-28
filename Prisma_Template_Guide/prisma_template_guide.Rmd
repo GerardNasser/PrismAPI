@@ -13,7 +13,6 @@ fontsize: 12pt
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "/Users/gerar/Desktop/All/Github/Prisma_Compliance_Resource/")
 ```
 \begin{center}
 Abstract:
@@ -147,7 +146,7 @@ First thing, lets create a list of keywords for R to use.
 ```{r}
 # In the c() list in quotes every keyword you can think of related to your topic 
 #Note: not working for multi-word phrases - separated each word.
-prelim_keywords <- c()
+prelim_keywords <- c("test")
 ```
 
 ### Expand the Keywords.
@@ -157,22 +156,65 @@ Note: This should work so long as Python is installed. If there are any modules 
 
 This Python script is "casting a wide net" and may, on accident, produce nonsensical or unrelated words. Please ignore them.
 
-```{r}
-if (!requireNamespace("reticulate", quietly=TRUE))
-  BiocManager::install("reticulate")
+```{r message=FALSE, warning=FALSE}
+# 1. ENSURE RETICULATE IS INSTALLED AND LOADED
+if (!requireNamespace("reticulate", quietly = TRUE)) {
+  install.packages("reticulate")
+}
 library(reticulate)
 
-command <- "python3" 
+# 2. INSTALL REQUIRED PYTHON PACKAGES
+required_packages <- c("pandas", "numpy", "nltk", "inflect")
+py_install(packages = required_packages, pip = TRUE)
 
-# The arguments are the script name followed by the words
-args <- c("similar_words.py", prelim_keywords)
+# 3. ROBUST NLTK DATA DOWNLOAD (using R's downloader)
+cat("Checking for NLTK 'wordnet' data...\n")
+tryCatch({
+  # Find the primary path where NLTK stores data
+  nltk <- import("nltk")
+  nltk_path <- nltk$data$path[[1]]
+  
+  # Define the target directory and file path
+  corpora_dir <- file.path(nltk_path, "corpora")
+  wordnet_zip <- file.path(corpora_dir, "wordnet.zip")
+  
+  # Check if the file is already there. If not, download it using R.
+  if (!file.exists(wordnet_zip)) {
+    cat("-> 'wordnet.zip' not found. Downloading via R...\n")
+    
+    # Create the 'corpora' directory if it doesn't exist
+    dir.create(corpora_dir, showWarnings = FALSE, recursive = TRUE)
+    
+    # Define the download URL
+    url <- "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/wordnet.zip"
+    
+    # Download the file using R's built-in downloader
+    download.file(url, destfile = wordnet_zip, mode = "wb")
+    
+    cat("-> Download complete.\n")
+  } else {
+    cat("-> 'wordnet.zip' already exists.\n")
+  }
+  
+  # Final verification by Python to be safe
+  nltk$data$find('corpora/wordnet.zip')
+  cat("-> NLTK 'wordnet' data is ready.\n")
+  
+}, error = function(e) {
+  stop(paste("A critical error occurred while trying to secure NLTK data. Please check your internet connection and firewall settings. Error:", e$message))
+})
 
-# Run the script using system2()
-# stdout = TRUE tells R to capture the text output from the script
-output <- system2(command, args, stdout = TRUE)
 
-# Print the captured output neatly
+# 4. SOURCE THE PYTHON SCRIPT AND CALL THE FUNCTION DIRECTLY
+source_python("./auxillary_scripts/similar_words.py")
+
+# NOTE: Make sure the `prelim_keywords` variable is defined before this chunk runs!
+output <- find_similar_words(list(prelim_keywords))
+
+# 5. DISPLAY THE OUTPUT
+cat("\n--- Script Output ---\n")
 cat(output, sep = "\n")
+
 ```
 
 ### Update Prelim list to Intermediate list
@@ -303,12 +345,48 @@ For each database, pull down the results of your search. When you do, take note 
 
 Once you have all your results, how you store them is up to you. An Excel spreadsheet is more than sufficient. However, depending on your needs, endnote files or RIS files are sufficient as well.
 
-# Parsing Through the Results
+## Parsing Through the Results
 There are many ways to do this, and different tools as well. To help learn and understand the process, this explanation will be manual, assuming you are using a software like Excel or something similar. The steps are very clear and mainly text manipulation and human judgement, if you are comfortable with Python, it can be done through code too.
 
-One resource that is helpful if you do not want to do it in Excel is [Covidance](https://www.covidence.org/) and [WEBSITE NIKITA SHOWED ME]().
+One resource that is helpful if you do not want to do it in Excel is [Covidance](https://www.covidence.org/) and [HubMeta](https://hubmeta.com/).
+
+### Tracking Your Steps
+As you proceed though these next sections, studies will be removed from your search based on critera you set. Even then, we still need to track everything. As stated earlier in this tutorial, all decisions are fine, but everything needs to be tracked and justifiable.
+
+In this section you will record the starting number of results you had from each database. This is important to know how many studies were removed. It will also allow us to compare our final pool of studies to our original.
+
+For each database record the number of results below
+
+Database 1: 
+
+---
+
+---
+
+Database 2: 
+
+---
+
+---
+
+etc...
+
+```{r, echo=FALSE}
+# Sum the total number of results here by replacing the placeholder numbers with
+# each database total:
+
+total_returned_studies <- sum(0,1,2,3)
+cat("The total number of results across databases:", total_returned_studies)
+```
 
 
+### Deduplication of Results
+
+### Title and Abstract Screening
+
+### Full Text Screening
+
+### PRISMA Flowchart
 
 # Section 4: Outlining the Paper
 
