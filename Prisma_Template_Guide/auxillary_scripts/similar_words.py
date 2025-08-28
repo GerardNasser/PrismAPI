@@ -1,25 +1,19 @@
+# similar_words.py (MODIFIED to work with Reticulate)
 
 import sys
 import nltk
 from nltk.corpus import wordnet
 import inflect
 
-# Check if WordNet data is already downloaded
-try:
-    nltk.data.find('corpora/wordnet')
-# If not, download WordNet quietly (no output)
-except LookupError:
-    nltk.download('wordnet', quiet=True)
+# NOTE: The NLTK download check has been removed.
+# The R script now handles this setup step before running this script.
 
-# Function to get word variants (words that start with the input and are single words)
 def get_variants(word):
-    variants = set()  # Create an empty set to store variants
-    # Loop through all synsets (groups of synonyms) for the word
+    """Gets plural, possessive, and other forms of a word."""
+    variants = set()
     for syn in wordnet.synsets(word):
-        # Loop through all lemmas (word forms) in each synset
         for lemma in syn.lemmas():
-            name = lemma.name()  # Get the actual word
-            # Only add if it starts with the input word, is not the word itself, and has no spaces, hyphens, or underscores
+            name = lemma.name()
             if (
                 name.startswith(word)
                 and name != word
@@ -28,87 +22,86 @@ def get_variants(word):
                 and '_' not in name
             ):
                 variants.add(name)
-    # Use inflect to get the plural form of the word
     p = inflect.engine()
     plural = p.plural(word)
-    # Add plural if it's different and is a single word
     if plural and plural != word and ' ' not in plural and '-' not in plural and '_' not in plural:
         variants.add(plural)
-    # Add possessive form (e.g., car's) if it's a single word
     possessive = word + "'s"
     if ' ' not in possessive and '-' not in possessive and '_' not in possessive:
         variants.add(possessive)
-    # Remove the original word if it got added
     variants.discard(word)
-    # Return up to 20 variants as a list
     return list(variants)[:20]
 
-# Function to get synonyms (words with similar meaning)
 def get_synonyms(word):
-    synonyms = set()  # Create an empty set for synonyms
-    # Loop through all synsets for the word
+    """Gets words with similar meanings."""
+    synonyms = set()
     for syn in wordnet.synsets(word):
-        # Loop through all lemmas in each synset
         for lemma in syn.lemmas():
-            synonyms.add(lemma.name())  # Add the word form
-    synonyms.discard(word)  # Remove the original word
-    # Return up to 10 synonyms as a list
+            synonyms.add(lemma.name())
+    synonyms.discard(word)
     return list(synonyms)[:10]
 
-# Function to get related words (words with conceptual relationships)
 def get_related_words(word):
-    related = set()  # Create an empty set for related words
-    # Loop through all synsets for the word
+    """Gets words with conceptual relationships (e.g., car -> wheel)."""
+    related = set()
     for syn in wordnet.synsets(word):
-        # For each synset, get related synsets (hypernyms, hyponyms, holonyms, meronyms)
         for rel in syn.hypernyms() + syn.hyponyms() + syn.part_meronyms() + syn.substance_meronyms() + syn.member_holonyms():
-            # Add all lemma names from these related synsets
             for lemma in rel.lemmas():
                 related.add(lemma.name())
-    # Add a morphological variant (different form of the word)
     morph = wordnet.morphy(word)
     if morph and morph != word:
         related.add(morph)
-    related.discard(word)  # Remove the original word
-    # Return up to 10 related words as a list
+    related.discard(word)
     return list(related)[:10]
 
-# Main script execution starts here
-if __name__ == "__main__":
-    # Get words from command-line arguments (ignoring the script name)
-    words_list = sys.argv[1:]
-    # If no words are provided, print a message and exit
-    if not words_list:
-        print("Please provide words as arguments.")
-        sys.exit(1)
-    # For each word provided
-    for word in words_list:
-        # Get variants, synonyms, and related words
+def find_similar_words(keywords_list):
+    """
+    Main function to be called from R.
+    Takes a list of keywords and returns a single formatted string with all results.
+    """
+    # If no words are provided, return an informative message.
+    if not keywords_list:
+        return "Please provide words as arguments."
+
+    output_lines = [] # Collect all print lines into a list
+    for word in keywords_list:
         variants = get_variants(word)
         synonyms = get_synonyms(word)
         related = get_related_words(word)
-        # Print the word being processed
-        print(f"\nWord: {word}")
-        # Print variants
-        print("Variants:")
+
+        output_lines.append(f"\nWord: {word}")
+        
+        output_lines.append("Variants:")
         if variants:
             for v in variants:
-                print(f"  - {v}")
+                output_lines.append(f"  - {v}")
         else:
-            print("  None found.")
-        # Print synonyms
-        print("Synonyms:")
+            output_lines.append("  None found.")
+            
+        output_lines.append("Synonyms:")
         if synonyms:
             for s in synonyms:
-                print(f"  - {s}")
+                output_lines.append(f"  - {s}")
         else:
-            print("  None found.")
-        # Print related words
-        print("Related words:")
+            output_lines.append("  None found.")
+
+        output_lines.append("Related words:")
         if related:
             for r in related:
-                print(f"  - {r}")
+                output_lines.append(f"  - {r}")
         else:
-            print("  None found.")
-        # Print a separator line
-        print("-" * 40)
+            output_lines.append("  None found.")
+        
+        output_lines.append("-" * 40)
+    
+    # Join all the collected lines into a single string to return to R
+    return "\n".join(output_lines)
+
+# This block allows the script to STILL be run from the command line
+if __name__ == "__main__":
+    # Get words from command-line arguments
+    words_from_cli = sys.argv[1:]
+    # Call the main function
+    result_string = find_similar_words(words_from_cli)
+    # Print the final result
+    print(result_string)
