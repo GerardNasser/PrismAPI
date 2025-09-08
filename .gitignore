@@ -49,3 +49,4 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 .DS_Store
+APIs/Web_of_Science_API_Resources_and_Tutorials/.env
