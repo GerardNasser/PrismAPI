@@ -1,0 +1,6 @@
+# Email for NCBI Entrez
+email="Your_Email_Here"
+database="pubmed"
+query="climate+change"
+rettype="xml"
+retmode="xml"
