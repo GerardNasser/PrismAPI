@@ -1,6 +1,6 @@
-# Email for NCBI Entrez
-email="Your_Email_Here"
-database="pubmed"
-query="climate+change"
-rettype="xml"
-retmode="xml"
+EMAIL="Your_Email_Here"
+API_key="Your_API_here"
+DATABASE="pubmed"
+SEARCH_QUERY="climate+change"
+RETTYPE="xml"
+RETMODE="xml"
