@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "my-galaxy-agent"
+name = "my-review-agent"
 version = "0.1.0"
-description = "A simple agent to interact with the Galaxy API."
+description = "A simple agent to interact with the journal database APIs."
 requires-python = ">=3.9"
 
 # Core dependencies for the application to run
@@ -14,8 +14,9 @@ dependencies = [
     "uplink>=0.9",
     "requests>=2.0",
     "python-dotenv>=1.0",
+    "google-generativeai>=0.5.4", # For the Gemini API
 ]
 
 # A command-line script to run the application
 [project.scripts]
-run-agent = "my_galaxy_agent.app:run"
+run-agent = "my_review_agent.app:run"
