@@ -1,4 +1,7 @@
 import os
+import sys
+!{sys.executable} -m pip install biopython
+from Bio import Entrez as ez
 from dotenv import load_dotenv
 import google.generativeai as genai
 from .client import GalaxyApiClient

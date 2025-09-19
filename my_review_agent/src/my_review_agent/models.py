@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
-class History(BaseModel):
+## PubMed Models
+class ESearch(BaseModel):
     """
     Represents a single History from the Galaxy API.
     This ensures any history data we use has at least an id and a name.
