@@ -56,3 +56,4 @@ rsconnect/
 APIs/Web_of_Science_API_Resources_and_Tutorials/.env
 APIs/PubMed_API_Resources_and_Tutorials/.env
 .env
+/APIs/PubMed_API_Resources_and_Tutorials/.venv
