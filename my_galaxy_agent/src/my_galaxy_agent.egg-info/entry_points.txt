@@ -1,0 +1,2 @@
+[console_scripts]
+run-agent = my_galaxy_agent.app:run

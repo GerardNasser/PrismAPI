@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "my-galaxy-agent"
+version = "0.1.0"
+description = "A simple agent to interact with the Galaxy API."
+requires-python = ">=3.9"
+
+# Core dependencies for the application to run
+dependencies = [
+    "pydantic>=2.0",
+    "uplink>=0.9",
+    "requests>=2.0",
+    "python-dotenv>=1.0",
+]
+
+# A command-line script to run the application
+[project.scripts]
+run-agent = "my_galaxy_agent.app:run"
