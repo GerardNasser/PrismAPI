@@ -55,3 +55,4 @@ rsconnect/
 # Environment files
 .env
 /APIs/PubMed_API_Resources_and_Tutorials/.venv
+/my_review_agent/src/my_review_agent.egg-info
