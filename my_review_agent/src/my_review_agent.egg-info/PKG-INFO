@@ -1,10 +1,12 @@
 Metadata-Version: 2.4
 Name: my-review-agent
-Version: 0.1.0
-Summary: A simple agent to interact with the journal database APIs.
+Version: 1.0.0
+Summary: A Gemini-powered agent to perform systematic searches on NCBI databases like PubMed.
 Requires-Python: >=3.9
+Description-Content-Type: text/markdown
 Requires-Dist: pydantic>=2.0
-Requires-Dist: uplink>=0.9
-Requires-Dist: requests>=2.0
 Requires-Dist: python-dotenv>=1.0
-Requires-Dist: google-generativeai>=0.5.4
+Requires-Dist: google-generativeai>=0.5.0
+Requires-Dist: biopython>=1.83
+Requires-Dist: pandas>=2.0
+Requires-Dist: xmltodict>=0.13.0

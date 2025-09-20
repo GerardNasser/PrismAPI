@@ -1,11 +1,25 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing import List
 
-## PubMed Models
-class ESearch(BaseModel):
+class PubMedArticle(BaseModel):
     """
-    Represents a single History from the Galaxy API.
-    This ensures any history data we use has at least an id and a name.
+    Represents a single, parsed article from a PubMed search.
+    This model guarantees that every article in our application
+    has these specific fields.
     """
-    id: str
-    name: str
-    # Add any other fields you expect from the API, like 'url', 'count', etc.s
+    PMID: str
+    Title: str
+    Abstract: str
+    Journal: str
+    Year: str
+
+class WosArticle(BaseModel):
+    """
+    Represents a single, parsed article from a Web of Science search.
+    """
+    UID: str
+    DOI: str
+    Title: str
+    Year: str | int
+    Journal: str
+    Authors: str

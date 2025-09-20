@@ -4,17 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "my-review-agent"
-version = "0.1.0"
-description = "A simple agent to interact with the journal database APIs."
+version = "1.0.0"
+description = "A Gemini-powered agent to perform systematic searches on NCBI databases like PubMed."
+readme = "README.md"
 requires-python = ">=3.9"
-
-# Core dependencies for the application to run
 dependencies = [
     "pydantic>=2.0",
-    "uplink>=0.9",
-    "requests>=2.0",
     "python-dotenv>=1.0",
-    "google-generativeai>=0.5.4", # For the Gemini API
+    "google-generativeai>=0.5.0",
+    "biopython>=1.83",
+    "pandas>=2.0",
+    "xmltodict>=0.13.0"
 ]
 
 # A command-line script to run the application
