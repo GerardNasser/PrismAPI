@@ -1,212 +1,241 @@
-from typing import List, Dict, Any
-from time import sleep
-from Bio import Entrez as ez
 import pandas as pd
-import json
-import xmltodict
+from time import sleep
+from typing import List
+from requests.exceptions import HTTPError
 
-from .client import NcbiClient, WosClient
+from .client import NcbiClient, WosStarterClient
 from .models import PubMedArticle, WosArticle
 
+# ==============================================================================
+# NCBI PROVIDER
+# ==============================================================================
 class NcbiProvider:
-    """
-    The high-level provider for NCBI.
-    It uses the NcbiClient to perform complex, multi-step operations.
-    """
+    """The high-level provider for NCBI search workflows."""
     def __init__(self, client: NcbiClient):
         self._client = client
 
-    def _search_and_get_ids(self, db: str, term: str) -> Dict[str, Any] | None:
-        """Helper function to perform a search and return history server details."""
+    def fetch_full_records(self, term: str, db: str) -> List[PubMedArticle] | None:
+        """Performs a search and fetches the full records."""
         try:
             search_results = self._client.esearch(db=db, term=term)
             count = int(search_results["Count"])
-            print(f"Provider: Found {count} results.")
+            webenv = search_results["WebEnv"]
+            query_key = search_results["QueryKey"]
+            print(f"NCBI Provider: Found {count} results.")
+
             if count == 0:
-                return {"count": 0}
-            return {"count": count, "webenv": search_results["WebEnv"], "query_key": search_results["QueryKey"], "ids": search_results["IdList"]}
-        except Exception as e:
-            print(f"Provider: An error occurred during search: {e}")
-            return None
+                return []
 
-    def get_summaries(self, db: str, term: str) -> List[Dict[str, Any]] | None:
-        """Gets summaries for a search term."""
-        search_info = self._search_and_get_ids(db, term)
-        if not search_info or search_info["count"] == 0:
-            return []
-        try:
-            summary_data = self._client.esummary(db=db, webenv=search_info['webenv'], query_key=search_info['query_key'])
-            return summary_data
-        except Exception as e:
-            print(f"Provider: Could not fetch summaries. Error: {e}")
-            return None
-
-    def fetch_full_records(self, db: str, term: str) -> List[Any] | None:
-        """Performs the complete search, fetch, and parse workflow for full records."""
-        search_info = self._search_and_get_ids(db, term)
-        if not search_info or search_info["count"] == 0:
-            return []
-        try:
-            count, webenv, query_key = search_info['count'], search_info['webenv'], search_info['query_key']
             batch_size = 100
             all_records = []
-            for start in range(0, count, batch_size):
-                fetch_handle = self._client.efetch(db=db, webenv=webenv, query_key=query_key, retstart=start, retmax=batch_size)
-                data = fetch_handle.read()
-                fetch_handle.close()
-                records = xmltodict.parse(data)
-                all_records.append(records)
-                sleep(0.3)
-            print("Provider: Finished fetching all records.")
-            if db.lower() == 'pubmed':
-                return self._parse_pubmed_articles(all_records)
-            else:
-                print("Provider: Returning raw dictionary data for non-PubMed database.")
-                return all_records
+            for start in range(0, min(count, 500), batch_size): # Limit to 500 records
+                records_data = self._client.efetch(db=db, webenv=webenv, query_key=query_key, retstart=start, retmax=batch_size)
+                all_records.extend(records_data['PubmedArticle'])
+                sleep(0.4)
+            
+            print("NCBI Provider: Finished fetching records.")
+            return self._parse_pubmed_records(all_records)
+
         except Exception as e:
-            print(f"Provider: An error occurred during the fetch process: {e}")
+            print(f"NCBI Provider: An error occurred: {e}")
             return None
 
-    def find_and_link(self, source_db: str, source_term: str, target_db: str) -> List[Dict[str, Any]] | None:
-        """Searches one database, then finds related items in another."""
-        print(f"Provider: Initiating link from '{source_db}' to '{target_db}' for term '{source_term}'.")
-        search_info = self._search_and_get_ids(source_db, source_term)
-        if not search_info or search_info["count"] == 0: return []
-        try:
-            id_list = search_info['ids']
-            linked_data = self._client.elink(db=target_db, dbfrom=source_db, id_list=id_list)
-            final_links = []
-            for record in linked_data:
-                if 'LinkSetDb' in record and record['LinkSetDb']:
-                    for link in record['LinkSetDb'][0]['Link']:
-                        final_links.append({'SourceID': record['IdList'][0], 'TargetID': link['Id']})
-            print(f"Provider: Found {len(final_links)} links.")
-            return final_links
-        except Exception as e:
-            print(f"Provider: An error occurred during the linking process: {e}")
-            return None
+    def save_records_to_file(self, records: List[PubMedArticle] | None, filename: str):
+        """Saves a list of PubMedArticle objects to a specified file (CSV, JSON, or TXT)."""
+        if not records:
+            print("Provider: No records to save.")
+            return
 
-    def save_results_to_file(self, data: List[Any], filename: str) -> bool:
-        """Saves a list of data (models or dicts) to a file."""
-        if not data:
-            print("Provider: No data to save.")
-            return True
         try:
-            if hasattr(data[0], 'model_dump'): data_dicts = [item.model_dump() for item in data]
-            else: data_dicts = data
-            if filename.lower().endswith(".csv"):
-                pd.DataFrame(data_dicts).to_csv(filename, index=False)
-            elif filename.lower().endswith(".json"):
-                with open(filename, 'w') as f: json.dump(data_dicts, f, indent=4)
+            article_dicts = [article.model_dump() for article in records]
+            df = pd.DataFrame(article_dicts)
+            
+            # Define a consistent column order for CSV files
+            csv_columns = ['PMID', 'Year', 'Journal', 'Title', 'Abstract']
+
+            if filename.endswith('.csv'):
+                df.to_csv(filename, index=False, columns=csv_columns)
+                print(f"Provider: Successfully saved {len(records)} results to {filename}")
+            elif filename.endswith('.json'):
+                df.to_json(filename, orient='records', indent=4)
+                print(f"Provider: Successfully saved {len(records)} results to {filename}")
+            elif filename.endswith('.txt'):
+                with open(filename, 'w', encoding='utf-8') as f:
+                    for i, article in enumerate(records):
+                        f.write(f"Record #{i+1}\n")
+                        f.write(f"PMID: {article.PMID}\n")
+                        f.write(f"Title: {article.Title}\n")
+                        f.write(f"Journal: {article.Journal} ({article.Year})\n")
+                        f.write(f"Abstract: {article.Abstract}\n")
+                        f.write("\n---\n\n")
+                print(f"Provider: Successfully saved {len(records)} results to {filename}")
             else:
-                print(f"Provider: Error: Unsupported file type for '{filename}'. Use .csv or .json.")
-                return False
-            print(f"Provider: Successfully saved {len(data)} records to {filename}")
-            return True
+                print(f"Provider: Invalid file format for '{filename}'. Please use .csv, .json, or .txt.")
+
         except Exception as e:
             print(f"Provider: Failed to save file '{filename}'. Error: {e}")
-            return False
 
-    def _parse_pubmed_articles(self, raw_records: List[Dict]) -> List[PubMedArticle]:
-        """Specific parser for the detailed PubMed article structure returned by efetch."""
+    def _parse_pubmed_records(self, records: list) -> List[PubMedArticle]:
+        """Parses the raw XML data from efetch into a list of PubMedArticle models."""
         parsed_articles = []
-        articles_root = raw_records[0].get('PubmedArticleSet', {}).get('PubmedArticle', [])
-        if not isinstance(articles_root, list): articles_root = [articles_root]
-        for article_data in articles_root:
-            citation = article_data.get('MedlineCitation', {})
+        for article in records:
+            citation = article.get('MedlineCitation', {})
             article_info = citation.get('Article', {})
+            
             title = article_info.get('ArticleTitle', 'No Title Found')
-            if isinstance(title, dict): title = title.get('#text', 'No Title Found')
             abstract_parts = article_info.get('Abstract', {}).get('AbstractText', [])
-            if isinstance(abstract_parts, list): abstract = ' '.join(part.get('#text', '') if isinstance(part, dict) else part for part in abstract_parts)
-            elif isinstance(abstract_parts, dict): abstract = abstract_parts.get('#text', 'No Abstract Found')
-            else: abstract = abstract_parts or 'No Abstract Found'
+            abstract = ' '.join(abstract_parts) if abstract_parts else 'No Abstract Found'
+            
             journal_info = article_info.get('Journal', {})
             journal_name = journal_info.get('Title', 'No Journal Found')
             pub_date = journal_info.get('JournalIssue', {}).get('PubDate', {})
             year = pub_date.get('Year', pub_date.get('MedlineDate', 'No Year Found'))
-            pmid = citation.get('PMID', {}).get('#text', '')
-            parsed_articles.append(PubMedArticle(PMID=str(pmid), Title=title, Abstract=abstract, Journal=journal_name, Year=str(year)))
-        print(f"Provider: Successfully parsed {len(parsed_articles)} PubMed articles.")
+            
+            pmid = citation.get('PMID', '')
+
+            parsed_articles.append(PubMedArticle(
+                PMID=str(pmid), 
+                Title=str(title), 
+                Abstract=str(abstract), 
+                Journal=str(journal_name), 
+                Year=str(year)
+            ))
+        print(f"NCBI Provider: Successfully parsed {len(parsed_articles)} articles.")
         return parsed_articles
 
+# ==============================================================================
+# WEB OF SCIENCE (WOS) PROVIDER
+# ==============================================================================
 class WosProvider:
-    """
-    The high-level provider for Web of Science.
-    """
-    def __init__(self, client: WosClient):
+    """The high-level provider for Web of Science search workflows."""
+    PAGE_LIMIT = 10 
+    
+    def __init__(self, client: WosStarterClient):
         self._client = client
 
-    def search_and_fetch(self, term: str) -> List[WosArticle] | None:
-        """Fetches and parses results from the Web of Science API."""
-        all_results = []
-        # Max pages to fetch to avoid very long runs
-        MAX_PAGES = 5
+    def search_and_fetch_all(self, term: str, db: str, sort_field: str) -> List[WosArticle] | None:
+        """Performs the complete WOS search and fetch workflow."""
         try:
-            for i in range(1, MAX_PAGES + 1):
-                response = self._client.search(term=term, page=i)
-                if response.status_code == 200:
-                    data = response.json()
-                    page_hits = data.get('hits', [])
-                    if page_hits:
-                        all_results.extend(page_hits)
-                        print(f"WOS Provider: ... Success! Added {len(page_hits)} results from page {i}.")
-                    else:
-                        print("WOS Provider: ... No more results found. Stopping.")
-                        break
-                else:
-                    print(f"WOS Provider: ... Error on page {i}: Status code {response.status_code}")
-                    print(f"WOS Provider: ... Response: {response.text}")
-                    break # Stop on error
+            initial_results = self._client.search(term=term, page=1, limit=1, db=db, sort_field=sort_field)
+            total_hits = initial_results.get('metadata', {}).get('total', 0)
+            print(f"WOS Provider: Found {total_hits} total results.")
             
-            return self._parse_wos_articles(all_results)
+            if total_hits == 0:
+                return []
+            
+            all_results = []
+            max_pages = 5 # Hard limit for now to avoid excessive calls
+            
+            for i in range(1, max_pages + 1):
+                if (i - 1) * self.PAGE_LIMIT >= total_hits:
+                    break # Stop if we've fetched all available records
+                page_results = self._client.search(term=term, page=i, limit=self.PAGE_LIMIT, db=db, sort_field=sort_field)
+                page_hits = page_results.get('hits', [])
+                if not page_hits:
+                    print(f"WOS Provider: No more results on page {i}. Stopping.")
+                    break
+                
+                all_results.extend(page_hits)
+                print(f"WOS Provider: Successfully fetched {len(page_hits)} results from page {i}.")
+                sleep(0.5)
+
+            print(f"WOS Provider: Finished fetching. Total results: {len(all_results)}.")
+            return self._parse_wos_records(all_results)
+
+        except HTTPError as e:
+            print(f"WOS Provider: An API error occurred: {e.response.status_code} - {e.response.text}")
+            return None
         except Exception as e:
             print(f"WOS Provider: An error occurred during fetch: {e}")
             return None
 
-    def save_results_to_file(self, data: List[Any], filename: str) -> bool:
-        """Saves a list of data (models or dicts) to a file."""
-        if not data:
-            print("Provider: No data to save.")
+    def search_and_save_all(self, term: str, db: str, sort_field: str, filename: str) -> bool:
+        """Searches WoS and saves the results to a file."""
+        print(f"WOS Provider: Starting search for '{term}'...")
+        articles = self.search_and_fetch_all(term, db, sort_field)
+        
+        if articles is None:
+            print("WOS Provider: Search failed, nothing to save.")
+            return False
+        if not articles:
+            print("WOS Provider: No articles found, nothing to save.")
             return True
+
         try:
-            if hasattr(data[0], 'model_dump'): data_dicts = [item.model_dump() for item in data]
-            else: data_dicts = data
-            if filename.lower().endswith(".csv"):
-                pd.DataFrame(data_dicts).to_csv(filename, index=False)
-            elif filename.lower().endswith(".json"):
-                with open(filename, 'w') as f: json.dump(data_dicts, f, indent=4)
+            article_dicts = [article.model_dump() for article in articles]
+            df = pd.DataFrame(article_dicts)
+            
+            # Define a consistent column order for CSV files
+            csv_columns = ['UID', 'DOI', 'Year', 'Journal', 'Title', 'Authors']
+
+            if filename.endswith('.csv'):
+                df.to_csv(filename, index=False, columns=csv_columns)
+                print(f"WOS Provider: Successfully saved {len(articles)} results to {filename}")
+            elif filename.endswith('.json'):
+                df.to_json(filename, orient='records', indent=4)
+                print(f"WOS Provider: Successfully saved {len(articles)} results to {filename}")
+            elif filename.endswith('.txt'):
+                with open(filename, 'w', encoding='utf-8') as f:
+                    for i, article in enumerate(articles):
+                        f.write(f"Record #{i+1}\n")
+                        f.write(f"UID: {article.UID}\n")
+                        f.write(f"DOI: {article.DOI}\n")
+                        f.write(f"Title: {article.Title}\n")
+                        f.write(f"Authors: {article.Authors}\n")
+                        f.write(f"Journal: {article.Journal} ({article.Year})\n")
+                        f.write("\n---\n\n")
+                print(f"WOS Provider: Successfully saved {len(articles)} results to {filename}")
             else:
-                print(f"Provider: Error: Unsupported file type for '{filename}'. Use .csv or .json.")
+                print(f"WOS Provider: Invalid file format for '{filename}'. Please use .csv, .json, or .txt.")
                 return False
-            print(f"Provider: Successfully saved {len(data)} records to {filename}")
             return True
         except Exception as e:
-            print(f"Provider: Failed to save file '{filename}'. Error: {e}")
+            print(f"WOS Provider: Failed to save file '{filename}'. Error: {e}")
             return False
 
-    def _parse_wos_articles(self, raw_records: List[Dict]) -> List[WosArticle]:
-        """Parses the raw JSON from WoS into a list of WosArticle models."""
-        publication_list = []
-        for record in raw_records:
-            source_info = record.get('source', {})
+    def _parse_wos_records(self, records: list) -> List[WosArticle]:
+        """Parses the raw JSON data from the API into a list of WosArticle models."""
+        parsed_articles = []
+        for record in records:
+            if not isinstance(record, dict): continue # Skip if a record is not a dictionary
+
+            uid = record.get('uid', 'N/A')
+            title = record.get('title', 'N/A')
+
+            # Robustly parse identifier info (DOI)
+            identifiers_info = record.get('identifiers')
+            doi = 'N/A'
+            if isinstance(identifiers_info, dict):
+                doi = identifiers_info.get('doi', 'N/A')
+
+            # Robustly parse source info (Journal, Year)
+            source_info = record.get('source')
+            year, journal = ('N/A', 'N/A')
+            if isinstance(source_info, dict):
+                year = source_info.get('publishYear', 'N/A')
+                journal = source_info.get('sourceTitle', 'N/A')
+
+            # Robustly parse author info
             names_info = record.get('names', {})
-            authors_list = names_info.get('authors', [])
-            if authors_list:
-                author_names = [author.get('displayName') for author in authors_list if author]
-                authors_str = '; '.join(author_names)
-            else:
-                authors_str = 'N/A'
-            
-            processed_record = WosArticle(
-                UID=record.get('uid', 'N/A'),
-                DOI=record.get('identifiers', {}).get('doi', 'N/A'),
-                Title=record.get('title', 'N/A').lower(),
-                Year=source_info.get('publishYear', 'N/A'),
-                Journal=source_info.get('sourceTitle', 'N/A'),
-                Authors=authors_str
-            )
-            publication_list.append(processed_record)
-        
-        print(f"WOS Provider: Successfully parsed {len(publication_list)} articles.")
-        return publication_list
+            authors = 'N/A'
+            if isinstance(names_info, dict):
+                authors_list = names_info.get('authors', [])
+                if authors_list:
+                    author_names = []
+                    for author in authors_list:
+                        if isinstance(author, dict):
+                            author_names.append(author.get('displayName', ''))
+                        elif isinstance(author, str):
+                            author_names.append(author)
+                    authors = '; '.join(filter(None, author_names))
+
+            parsed_articles.append(WosArticle(
+                UID=str(uid),
+                DOI=str(doi),
+                Title=str(title),
+                Authors=str(authors),
+                Journal=str(journal),
+                Year=str(year)
+            ))
+        print(f"WOS Provider: Successfully parsed {len(parsed_articles)} articles.")
+        return parsed_articles

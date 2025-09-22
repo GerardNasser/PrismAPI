@@ -1,62 +1,76 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
-from .client import NcbiClient, WosClient
+
+from .client import NcbiClient, WosStarterClient
 from .provider import NcbiProvider, WosProvider
 from .controller import Controller
 
 def run():
-    """
-    Initializes and runs the interactive multi-database agent.
-    """
+    """Loads environment variables, sets up clients and providers, and runs the main interactive loop."""
     load_dotenv()
+    
+    # --- Load API Keys and required variables ---
     google_key = os.environ.get("GOOGLE_API_KEY")
     ncbi_email = os.environ.get("NCBI_EMAIL")
-    wos_api_key = os.environ.get("WOS_API_KEY")
     ncbi_api_key = os.environ.get("NCBI_API_KEY") # Optional but recommended
+    wos_api_key = os.environ.get("WOS_API_KEY")
+    wos_base_url = os.environ.get("WOS_BASE_URL")
 
-    if not all([google_key, ncbi_email, wos_api_key]):
-        print("Error: GOOGLE_API_KEY, NCBI_EMAIL, and WOS_API_KEY must be set in your .env file.")
+    if not all([google_key, ncbi_email, wos_api_key, wos_base_url]):
+        print("Error: GOOGLE_API_KEY, NCBI_EMAIL, WOS_API_KEY, and WOS_BASE_URL must be set in your .env file.")
         return
 
     genai.configure(api_key=google_key)
 
-    try:
-        # Setup Phase for NCBI
-        ncbi_client = NcbiClient(email=ncbi_email, api_key=ncbi_api_key)
-        ncbi_provider = NcbiProvider(client=ncbi_client)
-
-        # Setup Phase for Web of Science
-        wos_client = WosClient(api_key=wos_api_key)
-        wos_provider = WosProvider(client=wos_client)
-
-        # The controller gets all providers
-        controller = Controller(ncbi_provider=ncbi_provider, wos_provider=wos_provider)
-    except Exception as e:
-        print(f"Failed to initialize the agent. Error: {e}")
-        return
+    # --- Load new defaults from .env ---
+    default_ncbi_db = os.environ.get("DATABASE", "pubmed")
+    default_wos_db = os.environ.get("DATABASE_CODE", "WOS")
     
-    print("--- Multi-Database Research Agent (Gemini Edition) ---")
-    print("The agent is ready. Type 'exit' or 'quit' to end.")
-    print("\n--- Example Prompts ---")
-    print("1. NCBI Search: 'Fetch full articles from pubmed for \"crispr cas9 therapy\"'")
-    print("2. Web of Science Search: 'Search web of science for \"carbon nanotube composites\"'")
-    print("3. Save from WoS: 'Find articles in web of science about \"machine learning in chemistry\" and save to wos_results.json'")
-    print("4. Save from NCBI: 'Search for gene database records on human BRCA1 and save to ncbi_genes.csv'\n")
+    # Logic to build the WOS sort field string from .env variables
+    wos_sort_field = os.environ.get("SORT_FIELD", "LD")
+    wos_ascending = os.environ.get("ASCENDING", "true").lower()
+    sort_direction = "A" if wos_ascending == 'true' else "D"
+    default_wos_sort = f"{wos_sort_field} {sort_direction}"
 
-    # Execution Phase (Interactive Loop)
+    # --- Setup Phase ---
+    ncbi_client = NcbiClient(email=ncbi_email, api_key=ncbi_api_key)
+    wos_client = WosStarterClient(api_key=wos_api_key, base_url=wos_base_url)
+    
+    ncbi_provider = NcbiProvider(client=ncbi_client)
+    wos_provider = WosProvider(client=wos_client)
+    
+    # Pass defaults into the controller on initialization
+    controller = Controller(
+        ncbi_provider=ncbi_provider, 
+        wos_provider=wos_provider,
+        default_ncbi_db=default_ncbi_db,
+        default_wos_db=default_wos_db,
+        default_wos_sort=default_wos_sort
+    )
+    
+    print("Multi-Database Agent (Gemini Edition) is ready. Type 'exit' to quit.")
+    print("\n--- Example Prompts")
+    print("1. NCBI Search: 'Find me papers about CRISPR in the protein database'")
+    print("2. WoS Search: 'Search web of science for articles on urban gradients'")
+    print("3. Save to File: 'Search pubmed for immunology and save to results.csv'")
+    print("4. Raw Search (NCBI): 'Search pubmed for `(asthma[MeSH Terms]) AND (review[Publication Type])`'")
+    print("5. Follow-up (Memory): First search for something, then ask a follow-up like 'of those, which were published in 2023?'\n")
+
+    # --- Execution Phase (Interactive Loop) ---
     while True:
         try:
             user_input = input("You: ")
             if user_input.lower() in ["exit", "quit"]:
                 print("Goodbye!")
                 break
-            if not user_input.strip():
+            if not user_input:
                 continue
             controller.process_command(user_input)
         except (KeyboardInterrupt, EOFError):
             print("\nGoodbye!")
             break
-        except Exception as e:
-            print(f"\nAn unexpected error occurred in the main loop: {e}")
+
+if __name__ == "__main__":
+    run()
 
