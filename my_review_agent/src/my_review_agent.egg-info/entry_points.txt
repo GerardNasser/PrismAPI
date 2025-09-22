@@ -1,2 +1,0 @@
-[console_scripts]
-run-agent = my_review_agent.app:run
