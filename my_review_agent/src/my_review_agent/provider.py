@@ -5,6 +5,11 @@ from requests.exceptions import HTTPError
 
 from .client import NcbiClient, WosStarterClient
 from .models import PubMedArticle, WosArticle
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+PAGE_LIMIT = int(os.environ.get("PAGE_LIMIT"))
 
 # ==============================================================================
 # NCBI PROVIDER
@@ -108,7 +113,7 @@ class NcbiProvider:
 # ==============================================================================
 class WosProvider:
     """The high-level provider for Web of Science search workflows."""
-    PAGE_LIMIT = 10 
+    PAGE_LIMIT = PAGE_LIMIT
     
     def __init__(self, client: WosStarterClient):
         self._client = client

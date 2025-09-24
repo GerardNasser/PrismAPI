@@ -63,6 +63,7 @@ class WosStarterClient:
     def search(self, term: str, page: int, limit: int, db: str, sort_field: str) -> Dict[str, Any]:
         """Performs a search against the configured WOS API endpoint."""
         # 1. Prepare the main query string value.
+        # ADD A WAY TO PUT TS=AFTER EVERY BOOLEAN THAT IS NOT WITHING A PARENTHESIS
         formatted_term = f"({term})"
         query_value = f"TS={formatted_term}"
 

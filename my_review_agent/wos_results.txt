@@ -1,0 +1,450 @@
+Record #1
+UID: WOS:000074363600013
+DOI: N/A
+Title: Mutagenicity and clastogenicity of gas stove emissions in bacterial and plant tests
+Authors: Monarca, S; Zanardini, A; Feretti, D; Falistocco, E; Antonelli, P; Resola, S; Moretti, M; Villarini, M; Nardi, G
+Journal: ENVIRONMENTAL AND MOLECULAR MUTAGENESIS (1998)
+
+---
+
+Record #2
+UID: WOS:000222400600027
+DOI: N/A
+Title: Quantification of bioaerosols in automated chicken egg production plants
+Authors: Venter, P; Lues, JFR; Theron, H
+Journal: POULTRY SCIENCE (2004)
+
+---
+
+Record #3
+UID: WOS:000253825700008
+DOI: 10.1177/1420326X08089251
+Title: Assessment of bioaerosol concentrations in different indoor environments
+Authors: Zorman, Tina; Jersek, Barbara
+Journal: INDOOR AND BUILT ENVIRONMENT (2008)
+
+---
+
+Record #4
+UID: WOS:000260744800013
+DOI: 10.1111/j.1462-2920.2008.01723.x
+Title: Predominance of Gram-positive bacteria in house dust in the low-allergy risk Russian Karelia
+Authors: Pakarinen, Jaakko; Hyvarinen, Anne; Salkinoja-Salonen, Mirja; Laitinen, Sirpa; Nevalainen, Aino; Makela, Mika J.; Haahtela, Tari; von Hertzen, Leena
+Journal: ENVIRONMENTAL MICROBIOLOGY (2008)
+
+---
+
+Record #5
+UID: WOS:000278787100008
+DOI: 10.1016/j.ibiod.2010.03.004
+Title: Seasonal variations of airborne bacteria in the Mogao Grottoes, Dunhuang, China
+Authors: Wang, Wanfu; Ma, Yantian; Ma, Xu; Wu, Fasi; Ma, Xiaojun; An, Lizhe; Feng, Huyuan
+Journal: INTERNATIONAL BIODETERIORATION & BIODEGRADATION (2010)
+
+---
+
+Record #6
+UID: WOS:000282179400001
+DOI: 10.1111/j.1574-6968.2010.02069.x
+Title: Development of a new PCR primer system for selective amplification of <i>Actinobacteria</i>
+Authors: Schaefer, Jenny; Jaeckel, Udo; Kaempfer, Peter
+Journal: FEMS MICROBIOLOGY LETTERS (2010)
+
+---
+
+Record #7
+UID: WOS:000287433100003
+DOI: 10.1016/j.asr.2010.10.007
+Title: Plants plus soil/wetland microbes: Food crop systems that also clean air and water
+Authors: Nelson, Mark; Wolverton, B. C.
+Journal: ADVANCES IN SPACE RESEARCH (2011)
+
+---
+
+Record #8
+UID: WOS:000299092000001
+DOI: 10.1007/s00284-011-0034-y
+Title: Microbial Biofilms on the Sandstone Monuments of the Angkor Wat Complex, Cambodia
+Authors: Gaylarde, Christine C.; Hernandez Rodriguez, Cesar; Navarro-Noya, Yendi E.; Otto Ortega-Morales, B.
+Journal: CURRENT MICROBIOLOGY (2012)
+
+---
+
+Record #9
+UID: WOS:000301633300013
+DOI: 10.1080/10789669.2011.591259
+Title: Characterization of microbial species in a regenerative bio-filter system for volatile organic compound removal
+Authors: Huang, Wen-Hsuan; Wang, Zhiqiang; Choudhary, Geetika; Guo, Beverly; Zhang, Jianshun; Ren, Dacheng
+Journal: HVAC&R RESEARCH (2012)
+
+---
+
+Record #10
+UID: WOS:000320423300012
+DOI: 10.1016/j.geoderma.2013.03.010
+Title: Structure of earthworm burrows related to organic matter of a constructed Technosol
+Authors: Pey, B.; Cortet, J.; Watteau, F.; Cheynier, K.; Schwartz, C.
+Journal: GEODERMA (2013)
+
+---
+
+Record #11
+UID: WOS:000326499300039
+DOI: 10.1371/journal.pone.0078866
+Title: The Diversity and Distribution of Fungi on Residential Surfaces
+Authors: Adams, Rachel I.; Miletto, Marzia; Taylor, John W.; Bruns, Thomas D.
+Journal: PLOS ONE (2013)
+
+---
+
+Record #12
+UID: WOS:000328593700024
+DOI: 10.3168/jds.2013-7028
+Title: Distribution and identification of culturable airborne microorganisms in a Swiss milk processing facility
+Authors: Brandl, Helmut; Fricker-Feer, Claudia; Ziegler, Dominik; Mandal, Jyotshna; Stephan, Roger; Lehner, Angelika
+Journal: JOURNAL OF DAIRY SCIENCE (2014)
+
+---
+
+Record #13
+UID: WOS:000360341600001
+DOI: 10.3389/fmicb.2015.00887
+Title: Microbiome interplay: plants alter microbial abundance and diversity within the built environment
+Authors: Mahnert, Alexander; Moissl-Eichinger, Christine; Berg, Gabriele
+Journal: FRONTIERS IN MICROBIOLOGY (2015)
+
+---
+
+Record #14
+UID: WOS:000375731300001
+DOI: 10.1016/j.ijheh.2015.07.004
+Title: Evaluation of exposure-response relationships for health effects of microbial bioaerosols - A systematic review
+Authors: Walser, Sandra M.; Gerstner, Doris G.; Brenner, Bernhard; Buenger, Juergen; Eikmann, Thomas; Janssen, Barbara; Kolb, Stefanie; Kolk, Annette; Nowak, Dennis; Raulf, Monika; Sagunski, Helmut; Sedlmaier, Nadja; Suchenwirth, Roland; Wiesmueller, Gerhard; Wollin, Klaus-Michael; Tesseraux, Irene; Herr, Caroline E. W.
+Journal: INTERNATIONAL JOURNAL OF HYGIENE AND ENVIRONMENTAL HEALTH (2015)
+
+---
+
+Record #15
+UID: WOS:000367061200001
+DOI: 10.1186/s40168-015-0144-z
+Title: Sources of airborne microorganisms in the built environment
+Authors: Prussin, Aaron J., II; Marr, Linsey C.
+Journal: MICROBIOME (2015)
+
+---
+
+Record #16
+UID: WOS:000408191200008
+DOI: 10.1128/mSystems.00038-16
+Title: From Sample to Multi-Omics Conclusions in under 48 Hours
+Authors: Quinn, Robert A.; Navas-Molina, Jose A.; Hyde, Embriette R.; Song, Se Jin; Vazquez-Baeza, Yoshiki; Humphrey, Greg; Gaffney, James; Minich, Jeremiah J.; Melnik, Alexey V.; Herschend, Jakob; DeReus, Jeff; Durant, Austin; Dutton, Rachel J.; Khosroheidari, Mahdieh; Green, Clifford; da Silva, Ricardo; Dorrestein, Pieter C.; Knight, Rob
+Journal: MSYSTEMS (2016)
+
+---
+
+Record #17
+UID: WOS:000374898500153
+DOI: 10.1371/journal.pone.0154131
+Title: Fungal and Bacterial Communities in Indoor Dust Follow Different Environmental Determinants
+Authors: Weikl, Fabian; Tischer, Christina; Probst, Alexander J.; Heinrich, Joachim; Markevych, Iana; Jochner, Susanne; Pritsch, Karin
+Journal: PLOS ONE (2016)
+
+---
+
+Record #18
+UID: WOS:000374181000002
+DOI: 10.1108/PRT-02-2015-0022
+Title: Studies on preparation of Bio-Paints using fungal bio-colors
+Authors: Sastry, D. Nithyananda; Prabhakar, T.; Narasu, M. Lakshmi
+Journal: PIGMENT & RESIN TECHNOLOGY (2016)
+
+---
+
+Record #19
+UID: WOS:000376404600005
+DOI: 10.1007/s10453-015-9391-5
+Title: Site-related and seasonal variation of bioaerosol emission in an indoor wastewater treatment station: level, characteristics of particle size, and microbial structure
+Authors: Ding, Wenjie; Li, Lin; Han, Yunping; Liu, Jianzhong; Liu, Junxin
+Journal: AEROBIOLOGIA (2016)
+
+---
+
+Record #20
+UID: WOS:000386074400003
+DOI: 10.1093/femsec/fiw138
+Title: The role of plant-microbiome interactions in weed establishment and control
+Authors: Trognitz, Friederike; Hackl, Evelyn; Widhalm, Siegrid; Sessitsch, Angela
+Journal: FEMS MICROBIOLOGY ECOLOGY (2016)
+
+---
+
+Record #21
+UID: WOS:000387807200066
+DOI: 10.1016/j.scitotenv.2016.06.208
+Title: Airborne bacterial contaminations in typical Chinese wet market with live poultry trade
+Authors: Gao, Xin-Lei; Shao, Ming-Fei; Luo, Yi; Dong, Yu-Fang; Ouyang, Feng; Dong, Wen-Yi; Li, Ji
+Journal: SCIENCE OF THE TOTAL ENVIRONMENT (2016)
+
+---
+
+Record #22
+UID: WOS:000395594500010
+DOI: 10.1080/15459624.2016.1252044
+Title: Assessment of fungal diversity in a water-damaged office building
+Authors: Green, Brett J.; Lemons, Angela R.; Park, Yeonmi; Cox-Ganser, Jean M.; Park, Ju-Hyeong
+Journal: JOURNAL OF OCCUPATIONAL AND ENVIRONMENTAL HYGIENE (2017)
+
+---
+
+Record #23
+UID: WOS:000393931100004
+DOI: 10.1016/j.chemosphere.2016.12.039
+Title: Identify biosorption effects of <i>Thiobacillus</i> towards perfluorooctanoic acid (PFOA): Pilot study from field to laboratory
+Authors: Li, Lei; Wang, Tieyu; Sun, Yajun; Wang, Pei; Yvette, Baninla; Meng, Jing; Li, Qifeng; Zhou, Yunqiao
+Journal: CHEMOSPHERE (2017)
+
+---
+
+Record #24
+UID: WOS:000395612400012
+DOI: 10.1016/j.watres.2017.01.046
+Title: Assessment of airborne bacteria and noroviruses in air emission from a new highly-advanced hospital wastewater treatment plant
+Authors: Uhrbrand, K.; Schultz, A. C.; Koivisto, A. J.; Nielsen, U.; Madsen, A. M.
+Journal: WATER RESEARCH (2017)
+
+---
+
+Record #25
+UID: WOS:000399618000009
+DOI: 10.1080/19338244.2016.1192981
+Title: Assessment of airborne bacteria in selected occupational environments in Quezon City, Philippines
+Authors: Rendon, Rhoshela Vi C.; Garcia, Bea Clarise B.; Vital, Pierangeli G.
+Journal: ARCHIVES OF ENVIRONMENTAL & OCCUPATIONAL HEALTH (2017)
+
+---
+
+Record #26
+UID: WOS:000418709100003
+DOI: 10.1128/mSystems.00087-17
+Title: Tree Leaf Bacterial Community Structure and Diversity Differ along a Gradient of Urban Intensity
+Authors: Laforest-Lapointe, Isabelle; Messier, Christian; Kembel, Steven W.
+Journal: MSYSTEMS (2017)
+
+---
+
+Record #27
+UID: WOS:000424851700011
+DOI: 10.1021/acs.est.7b04203
+Title: Diversity of DNA and RNA Viruses in Indoor Air As Assessed via Metagenomic Sequencing
+Authors: Rosario, Karyna; Fierer, Noah; Miller, Shelly; Luongo, Julia; Breitbart, Mya
+Journal: ENVIRONMENTAL SCIENCE & TECHNOLOGY (2018)
+
+---
+
+Record #28
+UID: WOS:000442214200006
+DOI: 10.1111/ina.12473
+Title: Biofiltration of airborne VOCs with green wall systemsMicrobial and chemical dynamics
+Authors: Mikkonen, A.; Li, T.; Vesala, M.; Saarenheimo, J.; Ahonen, V.; Karenlampi, S.; Blande, J. D.; Tiirola, M.; Tervahauta, A.
+Journal: INDOOR AIR (2018)
+
+---
+
+Record #29
+UID: WOS:000446333000006
+DOI: 10.2478/aiht-2018-69-3116
+Title: Occupational exposure to bioburden in Portuguese bakeries: an approach to sampling viable microbial load
+Authors: Viegas, Carla; Monteiro, Ana; Carolino, Elisabete; Viegas, Susana
+Journal: ARHIV ZA HIGIJENU RADA I TOKSIKOLOGIJU-ARCHIVES OF INDUSTRIAL HYGIENE AND TOXICOLOGY (2018)
+
+---
+
+Record #30
+UID: WOS:000452122400001
+DOI: 10.3389/fmicb.2018.02985
+Title: Enriching Beneficial Microbial Diversity of Indoor Plants and Their Surrounding Built Environment With Biostimulants
+Authors: Mahnert, Alexander; Haratani, Marika; Schmuck, Maria; Berg, Gabriele
+Journal: FRONTIERS IN MICROBIOLOGY (2018)
+
+---
+
+Record #31
+UID: WOS:000447809200017
+DOI: 10.1007/s10661-018-7035-2
+Title: Comparison of wastewater treatment plants based on the emissions of microbiological contaminants
+Authors: Michalkiewicz, Michal
+Journal: ENVIRONMENTAL MONITORING AND ASSESSMENT (2018)
+
+---
+
+Record #32
+UID: WOS:000446486600002
+DOI: 10.1186/s12866-018-1267-8
+Title: Air and waterborne microbiome of a pharmaceutical plant provide insights on spatiotemporal variations and community resilience after disturbance
+Authors: Pacchioni, Filippo; Esposito, Alfonso; Giacobazzi, Elisabetta; Bettua, Clotilde; Struffi, Paolo; Jousson, Olivier
+Journal: BMC MICROBIOLOGY (2018)
+
+---
+
+Record #33
+UID: WOS:000432367300002
+DOI: 10.1016/j.apsoil.2018.01.005
+Title: Long-term phosphorus application to a maize monoculture influences the soil microbial community and its feedback effects on maize seedling biomass
+Authors: Lang, Ming; Christie, Peter; Zhang, Junling; Li, Xiaolin
+Journal: APPLIED SOIL ECOLOGY (2018)
+
+---
+
+Record #34
+UID: WOS:000393479000011
+DOI: 10.1128/AEM.02694-16
+Title: Impacts of Seasonal Housing and Teat Preparation on Raw Milk Microbiota: a High-Throughput Sequencing Study
+Authors: Doyle, Conor J.; Gleeson, David; O'Toole, Paul W.; Cottera, Paul D.
+Journal: APPLIED AND ENVIRONMENTAL MICROBIOLOGY (2017)
+
+---
+
+Record #35
+UID: WOS:000454918300040
+DOI: 10.1016/j.jaci.2018.05.040
+Title: <i>Artemisia</i> pollen is the main vector for airborne endotoxin
+Authors: Oteros, Jose; Bartusel, Elke; Alessandrini, Francesca; Nunez, Andres; Moreno, Diego A.; Behrendt, Heidrun; Schmidt-Weber, Carsten; Traidl-Hoffmann, Claudia; Buters, Jeroen
+Journal: JOURNAL OF ALLERGY AND CLINICAL IMMUNOLOGY (2019)
+
+---
+
+Record #36
+UID: WOS:000462995300003
+DOI: 10.1186/s40168-019-0672-z
+Title: Seasonal dynamics of DNA and RNA viral bioaerosol communities in a daycare center
+Authors: Prussin, Aaron J., II; Torres, Pedro J.; Shimashita, John; Head, Steven R.; Bibby, Kyle J.; Kelley, Scott T.; Marr, Linsey C.
+Journal: MICROBIOME (2019)
+
+---
+
+Record #37
+UID: WOS:000470212300001
+DOI: 10.1186/s40168-019-0695-5
+Title: Concurrent measurement of microbiome and allergens in the air of bedrooms of allergy disease patients in the Chicago area
+Authors: Richardson, Miles; Gottel, Neil; Gilbert, Jack A.; Gordon, Julian; Gandhi, Prasanthi; Reboulet, Rachel; Hampton-Marcell, Jarrad T.
+Journal: MICROBIOME (2019)
+
+---
+
+Record #38
+UID: WOS:000470140500006
+DOI: 10.1007/s11356-017-0939-5
+Title: The effect of temperature on airborne filamentous fungi in the indoor and outdoor space of a hospital
+Authors: Abbasi, Fariba; Samaei, Mohammad Reza
+Journal: ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH (2019)
+
+---
+
+Record #39
+UID: WOS:000472136600007
+DOI: 10.26444/aaem/106112
+Title: Across-shift changes in upper airways after exposure to bacterial cell wall components
+Authors: Cyprowski, Marcin; Stobnicka-Kupiec, Agata; Gorny, Rafal L.; Golofit-Szymczak, Malgorzata; Ptak-Chmielewska, Aneta; Lawniczek-Walczyk, Anna
+Journal: ANNALS OF AGRICULTURAL AND ENVIRONMENTAL MEDICINE (2019)
+
+---
+
+Record #40
+UID: WOS:000477788800012
+DOI: 10.1016/j.tifs.2019.06.006
+Title: Airborne contamination in the food industry: An update on monitoring and disinfection techniques of air
+Authors: Masotti, Fabio; Cattaneo, Stefano; Stuknyte, Milda; De Noni, Ivano
+Journal: TRENDS IN FOOD SCIENCE & TECHNOLOGY (2019)
+
+---
+
+Record #41
+UID: WOS:000480628300012
+DOI: 10.3390/atmos10070360
+Title: Air Quality and Potential Health Risk Impacts of Exposure to Bacterial Aerosol in a Waste Sorting Plant Located in the Mountain Region of Southern Poland, Around Which There Are Numerous Rural Areas
+Authors: Bragoszewska, Ewa; Biedron, Izabela; Hryb, Wojciech
+Journal: ATMOSPHERE (2019)
+
+---
+
+Record #42
+UID: WOS:000483662400032
+DOI: 10.1007/s00253-019-10053-4
+Title: Quantitative evaluation of bioaerosols in different particle size fractions in dust collected on the International Space Station (ISS)
+Authors: Haines, Sarah R.; Bope, Ashleigh; Horack, John M.; Meyer, Marit E.; Dannemiller, Karen C.
+Journal: APPLIED MICROBIOLOGY AND BIOTECHNOLOGY (2019)
+
+---
+
+Record #43
+UID: WOS:000485250600001
+DOI: 10.1111/ina.12596
+Title: From one species to another: A review on the interaction between chemistry and microbiology in relation to cleaning in the built environment
+Authors: Velazquez, Samantha; Griffiths, Willem; Dietz, Leslie; Horve, Patrick; Nunez, Susie; Hu, Jinglin; Shen, Jiaxian; Fretz, Mark; Bi, Chenyang; Xu, Ying; Van Den Wymelenberg, Kevin G.; Hartmann, Erica M.; Ishaq, Suzanne L.
+Journal: INDOOR AIR (2019)
+
+---
+
+Record #44
+UID: WOS:000509618300010
+DOI: 10.1016/j.jhazmat.2019.121515
+Title: Bacterial compositions in inhalable particulate matters from indoor and outdoor wastewater treatment processes
+Authors: Liu, Miaomiao; Nobu, Masaru K.; Ren, Jia; Jin, Xiaowei; Hong, Gang; Yao, Hong
+Journal: JOURNAL OF HAZARDOUS MATERIALS (2020)
+
+---
+
+Record #45
+UID: WOS:000511498500007
+DOI: 10.1007/s10482-019-01319-y
+Title: The aeroponic rhizosphere microbiome: community dynamics in early succession suggest strong selectional forces
+Authors: Edmonds, Jennifer W.; Sackett, Joshua D.; Lomprey, Hunter; Hudson, Heather L.; Moser, Duane P.
+Journal: ANTONIE VAN LEEUWENHOEK INTERNATIONAL JOURNAL OF GENERAL AND MOLECULAR MICROBIOLOGY (2020)
+
+---
+
+Record #46
+UID: WOS:000524225000003
+DOI: 10.1007/s10453-019-09574-2
+Title: Relevance of plant and fungal DNA metabarcoding in aerobiology
+Authors: Banchi, Elisa; Pallavicini, Alberto; Muggia, Lucia
+Journal: AEROBIOLOGIA (2020)
+
+---
+
+Record #47
+UID: WOS:000517691600001
+DOI: 10.1007/s00248-019-01452-1
+Title: Mutualistic Outcomes Across Plant Populations, Microbes, and Environments in the Duckweed <i>Lemna minor</i>
+Authors: O'Brien, Anna M.; Laurich, Jason; Lash, Emma; Frederickson, Megan E.
+Journal: MICROBIAL ECOLOGY (2020)
+
+---
+
+Record #48
+UID: WOS:000520225100001
+DOI: 10.1007/s13314-020-0373-2
+Title: Bacterial blight on <i>Dracaena sanderiana</i> caused by <i>Burkholderia cepacia</i>
+Authors: Choi, Okhee; Lee, Yeyeong; Kang, Byeongsam; Kim, Seunghoe; Kim, Jinwoo
+Journal: AUSTRALASIAN PLANT DISEASE NOTES (2020)
+
+---
+
+Record #49
+UID: WOS:000541478000005
+DOI: 10.1016/j.buildenv.2020.106987
+Title: Characterisation of fungal and bacterial dynamics in an active green wall used for indoor air pollutant removal
+Authors: Fleck, R.; Gill, R. L.; Pettit, T.; Irga, P. J.; Williams, N. L. R.; Seymour, J. R.; Torpy, F. R.
+Journal: BUILDING AND ENVIRONMENT (2020)
+
+---
+
+Record #50
+UID: WOS:000543284300001
+DOI: 10.21307/PM-2020.59.2.009
+Title: MICROORGANISMS AS INDOOR AND OUTDOOR AIR BIOLOGICAL POLLUTION
+Authors: Siebielec, Sylwia; Wozniak, Malgorzata; Galazka, Anna; Siebielec, Grzegorz
+Journal: ADVANCEMENTS OF MICROBIOLOGY (2020)
+
+---
+
