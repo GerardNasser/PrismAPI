@@ -28,7 +28,7 @@ class NcbiProvider:
 
             batch_size = 100
             all_records = []
-            for start in range(0, min(count, 500), batch_size): # Limit to 500 records
+            for start in range(0, min(count, 1000), batch_size): # Limit to 1000 records
                 records_data = self._client.efetch(db=db, webenv=webenv, query_key=query_key, retstart=start, retmax=batch_size)
                 all_records.extend(records_data['PubmedArticle'])
                 sleep(0.4)
