@@ -58,3 +58,5 @@ rsconnect/
 /my_review_agent/src/my_review_agent.egg-info
 /my_review_agent/src/my_review_agent/__pycache__
 /my_review_agent/src/my_review_agent/__pycache__
+my_review_agent/src/my_review_agent/__pycache__
+my_review_agent/src/my_review_agent.egg-info
